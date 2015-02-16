@@ -12,8 +12,8 @@ DATABASE.execute("CREATE TABLE IF NOT EXISTS keywords (id INTEGER PRIMARY KEY, k
 
 DATABASE.execute("CREATE TABLE IF NOT EXISTS terms (id INTEGER PRIMARY KEY, term TEXT, definition TEXT)")
 
-DATABASE.execute("CREATE TABLE IF NOT EXISTS likes (user_ip TEXT, item_id INTEGER, item_type TEXT)")
+DATABASE.execute("CREATE TABLE IF NOT EXISTS likes (id INTEGER PRIMARY KEY, user_ip TEXT, item_id INTEGER, item_type TEXT)")
 
-DATABASE.execute("CREATE TABLE IF NOT EXISTS matches (keyword_id INTEGER, item_id INTEGER, item_type TEXT)")
+DATABASE.execute("CREATE TABLE IF NOT EXISTS matches (id INTEGER PRIMARY KEY, keyword_id INTEGER, item_id INTEGER, item_type TEXT)")
 
                                             

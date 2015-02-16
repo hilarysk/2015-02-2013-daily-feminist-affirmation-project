@@ -13,40 +13,6 @@ module FeministInstanceModule
   
  
 
-  # Public: #search_table_by_value
-  # Allows a person to search a specific table column by its value.
-  #
-  # Parameters:
-  # options - Hash
-  #           - field      - field: The column where the value in questions resides
-  #           - table      - table: The specific database table we're searching
-  #           - value      - value: The value that identified the specific record/s
-  #           - class_name - class_name: The Class on which the method is being called to create a new instantiation
-  #             
-  #             
-  #
-  # Returns:
-  # An empty array
-
-  def search_table_by_value(options)
-    field = options["field"]
-    table = options["table"]
-    value = options["value"]
-    class_name = options["class_name"]
-    
-    if value.is_a?(Integer)
-       results = DATABASE.execute("SELECT * FROM #{table} WHERE #{field} = #{value}")
-     else
-       results = DATABASE.execute("SELECT * FROM #{table} WHERE #{field} = '#{value}'")
-     end
-    
-    results_as_objects = []
-    
-    results.each do |record| 
-      results_as_objects << class_name.new(record)
-    end
-  end
-  
   # Public: #save
   # Updates a specific record with changes made
   #
@@ -88,6 +54,43 @@ module FeministInstanceModule
     DATABASE.execute("UPDATE #{table} SET #{query_string} WHERE id = #{item_id}")
                                                                                  
   end
+  
+  
+
+  # Public: #search_table_by_value
+  # Allows a person to search a specific table column by its value.
+  #
+  # Parameters:
+  # options - Hash
+  #           - field      - field: The column where the value in questions resides
+  #           - table      - table: The specific database table we're searching
+  #           - value      - value: The value that identified the specific record/s
+  #           - class_name - class_name: The Class on which the method is being called to create a new instantiation
+  #             
+  #             
+  #
+  # Returns:
+  # An empty array
+
+  def search_table_by_value(options)
+    field = options["field"]
+    table = options["table"]
+    value = options["value"]
+    class_name = options["class_name"]
+    
+    if value.is_a?(Integer)
+       results = DATABASE.execute("SELECT * FROM #{table} WHERE #{field} = #{value}")
+     else
+       results = DATABASE.execute("SELECT * FROM #{table} WHERE #{field} = '#{value}'")
+     end
+    
+    results_as_objects = []
+    
+    results.each do |record| 
+      results_as_objects << class_name.new(record)
+    end
+  end
+  
   
   
   

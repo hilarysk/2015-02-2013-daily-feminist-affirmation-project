@@ -936,6 +936,7 @@ module Example
     DATABASE.execute("DELETE FROM #{table} WHERE id = #{record_id}")
   end
   
+  
   # Public: #exterminate
   # Permanently deletes a table
   #
