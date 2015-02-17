@@ -110,27 +110,11 @@ module FeministClassMethods
   # State changes:
   # None
  
-  #need to update in case of multiple IDs
+  ############################################################################################################ => 
     
   def format_find_specific_record(results, table)    # ----- format results from find_specific_record ^^ 
-    # table = options["table"]
-    # field = options["field"]
-    # value = options["value"]
-    #
-    # if value.is_a?(Array)
-    #     value2 = value.join(" OR #{field} = ") # if looking for all records for specific keyword or user IP
-    #     results = DATABASE.execute("SELECT * FROM #{table} WHERE  #{field} = #{value2}")
-    #
-    # else
-    #   if value.is_a?(Integer)
-    #     results = DATABASE.execute("SELECT * FROM #{table} WHERE  #{field} = #{value}")
-    #   else
-    #     results = DATABASE.execute("SELECT * FROM #{table} WHERE  #{field} = '#{value}'")
-    #   end
-    #
-    # end
     
-    formatted_results = []
+    formatted_results = []                            # ------ refactor turning each "if" action into separate method
 
     results.each do |hash|
       hash.delete_if do |key, value|
@@ -179,6 +163,10 @@ module FeministClassMethods
               end
             when key == 4
               formatted_results << ("#{value.to_s}<br><br>") #person country
+            when key == 5
+              formatted_results << ("<img class='personimage' src='#{value.to_s}'>") # person image
+            when key == 6
+              formatted_results << ("<p class='imagecaption'>#{value.to_s}") #person image caption
           end
                                     
         # elsif table == "keywords" # not really necessary?
@@ -222,7 +210,7 @@ module FeministClassMethods
                 formatted_results << ("#{@user_ip} liked the following term:<br><strong>#{term.to_s}:</strong> #{definition.to_s}<br><br>") 
                   
               end
-            end
+          end
               
         elsif table == "matches"     # finish this
           case

@@ -1,0 +1,103 @@
+body  {
+  font-family: Georgia;
+  font-size: medium;
+  color: #000000;
+  text-decoration: none;
+  line-height: normal;
+  border: 0px;
+  background: #FFFFFF;
+  
+}
+
+.headerheading {
+  float: center;
+  padding-left: 5px;
+  padding-top: 5 px;
+  font-family: Impact, Charcoal, sans-serif;
+  
+}
+
+.footerfooting {
+  float: right;
+  padding-right: 10px;
+  font-family: Impact, Charcoal, sans-serif;
+  
+}
+
+.floatright {
+  float: right;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 3px;
+  width: 500px;
+}
+
+.floatleft {
+  float: left;
+  padding-bottom: 5px;
+  padding-left: 3px;
+  padding-right: 10px;
+  width: 300px;
+}
+
+.imglogo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 400px; 
+}
+
+
+.excerptimage {
+  position: relative;
+  align: center;
+  width: 80%;
+}
+
+.excerpttext {
+  /*align: center;*/
+  font-family: Courier;
+  position: absolute; 
+  top: 150px;
+  left: 300px;  
+  width: 400px; 
+}
+
+.personimage {
+  float: left;
+  align: center;
+  width: 350px;  
+}
+
+.persontext {
+  float: right;
+  align: center;
+  width: 350px;
+}
+
+
+.keywordtext {
+  font-family: Impact, Charcoal, sans-serif;
+  align: center;
+  position: absolute;
+}
+
+.personimagecaption {
+  float: left;
+  align: left;
+  font-family: Helvetica;
+  font-style: italic;
+  width: 350px;
+}
+
+
+
+
+
+
+
+
+
+
+
+

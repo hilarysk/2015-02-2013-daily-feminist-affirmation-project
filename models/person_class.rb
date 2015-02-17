@@ -12,9 +12,11 @@ require_relative "instance-module.rb"
 # @bio     - String: Number of products in inventory
 # @state   - String: State where person was born
 # @country - String: Country where person was born
+# @image   - String: Link to the person's image
+# @caption - String: Caption for image
 #
 # attr_reader :id
-# attr_accessor :country, :bio, :state, :name
+# attr_accessor :country, :bio, :state, :name, :caption, :image
 #
 # Public Methods:
 # 
@@ -30,21 +32,23 @@ class Person
   attr_accessor :country, :bio, :state, :name
 
   # Private: initialize
-  # Starts and then plays the game with the provided players.
+  # Creates new people
   #
   # Parameters:
   # options - Hash
-  #           - @name    - Instance variable representing the person's name
-  #           - @state   - Instance variable representing the person's state
-  #           - @bio     - Instance variable representing the person's short biography 
-  #           - @country - Instance variable representing the person's country
-  #           - @id      - Instance variable representing the person's ID within the table (primary key)
+  #           - @name    - the person's name
+  #           - @state   - the person's state
+  #           - @bio     - the person's short biography 
+  #           - @country - the person's country
+  #           - @id      - the person's ID within the table (primary key)
+  #           - @image   - a link to the person's image
+  #           - @caption - the caption for the image
   #
   # Returns:
   # The object
   #
   # State Changes:
-  # Sets instance variables @name, @state, @country, @bio, @id     
+  # Sets instance variables @name, @state, @country, @bio, @id, @image, @caption  
                                
   def initialize(options)
     @id = options["id"]
@@ -52,6 +56,8 @@ class Person
     @bio = options["bio"]
     @state = options["state"]
     @country = options["country"]
+    @image = options["image"]
+    @caption = options["caption"]
   end
   
   # Public: insert
@@ -67,8 +73,8 @@ class Person
   # Sets @id instance variable
   
   def insert
-    DATABASE.execute("INSERT INTO products (name, bio, state, country) VALUES 
-                    ('#{@name}', '#{@bio}', '#{@state}', '#{@country}')")
+    DATABASE.execute("INSERT INTO products (name, bio, state, country, image, caption) VALUES 
+                    ('#{@name}', '#{@bio}', '#{@state}', '#{@country}', '#{@image}', '#{@caption}')")
     @id = DATABASE.last_insert_row_id
   end
 

@@ -4,7 +4,7 @@ DATABASE.results_as_hash = true
 
 DATABASE.execute("CREATE TABLE IF NOT EXISTS excerpts (id INTEGER PRIMARY KEY, text TEXT, source TEXT, person_id INTEGER, FOREIGN KEY(person_id) REFERENCES persons(id))")
 
-DATABASE.execute("CREATE TABLE IF NOT EXISTS persons (id INTEGER PRIMARY KEY, name TEXT, bio TEXT, state TEXT, country TEXT)")
+DATABASE.execute("CREATE TABLE IF NOT EXISTS persons (id INTEGER PRIMARY KEY, name TEXT, bio TEXT, state TEXT, country TEXT, image TEXT, caption TEXT)")
 
 DATABASE.execute("CREATE TABLE IF NOT EXISTS quotes (id INTEGER PRIMARY KEY, text TEXT, person_id INTEGER, FOREIGN KEY(person_id) REFERENCES persons(id))")
 

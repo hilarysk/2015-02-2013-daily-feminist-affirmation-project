@@ -32,5 +32,9 @@ ______________________________________________________________________________
 
 #*Extensions*
 
-* Branch out from book excerpts to quotes from famous feminists (add class/table "quotes", change "author" to "contributor" or somesuch) and/or definitions (add class/table "glossary")
+* ~~Branch out from book excerpts to quotes from famous feminists (add class/table "quotes", change "author" to "contributor" or somesuch) and/or definitions (add class/table "glossary")~~
 * Let user log-in with password and be able to edit database (add excerpts, authors, etc.)
+
+
+
+
