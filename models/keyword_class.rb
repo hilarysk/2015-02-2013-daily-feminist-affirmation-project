@@ -19,8 +19,8 @@ require_relative "instance-module.rb"
 # #initialize
 
 class Keyword
-  extend FeministClassModule
-  include FeministInstanceModule
+  extend FeministClassMethods
+  include FeministInstanceMethods
 
   
   attr_reader :id
@@ -36,7 +36,7 @@ class Keyword
   #           - @id      - Instance variable representing the keyword ID within the table (primary key)
   #
   # Returns:
-  # Nil
+  # The object
   #
   # State Changes:
   # Sets instance variables @keyword and @id     
@@ -46,6 +46,17 @@ class Keyword
     @keyword = options["keyword"]
   end
   
+  # Public: insert
+  # Inserts the information collected in initialize into the proper table
+  #
+  # Parameters:
+  # None
+  #
+  # Returns:
+  # The object's id number
+  #
+  # State Changes:
+  # Sets @id instance variable
   
   def insert
     DATABASE.execute("INSERT INTO keywords (keyword) VALUES 

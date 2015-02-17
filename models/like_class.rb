@@ -20,8 +20,8 @@ require_relative "instance-module.rb"
 # #initialize
 
 class Like
-  extend FeministClassModule
-  include FeministInstanceModule
+  extend FeministClassMethods
+  include FeministInstanceMethods
 
   attr_accessor :item_id, :user_ip, :item_table
   attr_reader :id
@@ -37,7 +37,7 @@ class Like
   #           - @user_ip    - Instance variable representing the IP address of the user
   #           - @id         - Instance variable representing the ID of the record (primary key)
   # Returns:
-  # Nil
+  # The object
   #
   # State Changes:
   # Sets instance variables @id, @user_ip, @item_id, @item_table
@@ -49,6 +49,17 @@ class Like
     @item_table = options["item_table"]
   end
   
+  # Public: insert
+  # Inserts the information collected in initialize into the proper table
+  #
+  # Parameters:
+  # None
+  #
+  # Returns:
+  # The object's id number
+  #
+  # State Changes:
+  # Sets @id instance variable
   
   def insert
     DATABASE.execute("INSERT INTO likes (user_ip, item_id, item_table) VALUES 

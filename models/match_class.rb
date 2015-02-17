@@ -20,8 +20,8 @@ require_relative "instance-module.rb"
 # #initialize
 
 class Match
-  extend FeministClassModule
-  include FeministInstanceModule
+  extend FeministClassMethods
+  include FeministInstanceMethods
 
   attr_accessor :item_id, :keyword_id, :item_table
   attr_reader :id
@@ -37,7 +37,7 @@ class Match
   #           - @keyword_id - Instance variable representing the ID of the keyword
   #           - @id         - Instance variable representing the ID of the record (primary key)
   # Returns:
-  # Nil
+  # The object
   #
   # State Changes:
   # Sets instance variables @id, @keyword_id, @item_id, @item_type     
@@ -49,6 +49,17 @@ class Match
     @item_table = options["item_table"]
   end
   
+  # Public: insert
+  # Inserts the information collected in initialize into the proper table
+  #
+  # Parameters:
+  # None
+  #
+  # Returns:
+  # The object's id number
+  #
+  # State Changes:
+  # Sets @id instance variable
   
   def insert
     DATABASE.execute("INSERT INTO matches (keyword_id, item_id, item_table) VALUES 

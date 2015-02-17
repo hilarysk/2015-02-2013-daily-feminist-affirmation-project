@@ -20,8 +20,8 @@ require_relative "instance-module.rb"
 # #initialize
 
 class Term
-  extend FeministClassModule
-  include FeministInstanceModule
+  extend FeministClassMethods
+  include FeministInstanceMethods
   
 
   
@@ -38,7 +38,7 @@ class Term
   #           - @term       - Instance variable representing the term 
   #
   # Returns:
-  # Nil
+  # An object of the class
   #
   # State Changes:
   # Sets instance variables @id, @definition, @term     
@@ -49,12 +49,26 @@ class Term
     @definition = options["definition"]
   end
   
+  # Public: insert
+  # Inserts the information collected in initialize into the proper table
+  #
+  # Parameters:
+  # None
+  #
+  # Returns:
+  # The object's id number
+  #
+  # State Changes:
+  # Sets @id instance variable
   
   def insert
-    DATABASE.execute("INSERT INTO quotes (term, definition) VALUES 
+    DATABASE.execute("INSERT INTO terms (term, definition) VALUES 
                     ('#{@term}', '#{@definition}')")
     @id = DATABASE.last_insert_row_id
   end
+
+
+
 
     
 end

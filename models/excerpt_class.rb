@@ -21,8 +21,8 @@ require_relative "instance-module.rb"
 # #initialize
 
 class Excerpt
-  extend FeministClassModule
-  include FeministInstanceModule
+  extend FeministClassMethods
+  include FeministInstanceMethods
 
   
   attr_reader :id
@@ -40,7 +40,7 @@ class Excerpt
   #           - @person_id - Integer: Foreign key linked to ID primary key from persons table
   #          
   # Returns:
-  # Nil
+  # The object
   #
   # State Changes:
   # Sets instance variables @text, @id, @source, @person_id     
@@ -52,6 +52,17 @@ class Excerpt
     @person_id = options["person_id"]
   end
   
+  # Public: insert
+  # Inserts the information collected in initialize into the proper table
+  #
+  # Parameters:
+  # None
+  #
+  # Returns:
+  # The object's id number
+  #
+  # State Changes:
+  # Sets @id instance variable  
   
   def insert
     DATABASE.execute("INSERT INTO excerpts (text, source, person_id) VALUES 

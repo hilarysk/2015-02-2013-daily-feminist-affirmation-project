@@ -1,19 +1,20 @@
 ## Quotes
 
-id, text, person_id
+text, person_id
 
 ## Terms
 
-id, term, definition
+term, definition
 
+    @term1 = Term.new({"term"=>"Intersectional feminism", "definition"=>"A key component of third-wave feminism, which attempts to view feminism through a variety of other lenses (such as race, socioeconomic status, etc.) instead of through the vaccuum experience of straight, middle-class, able-bodied white women."})
 ## Persons
 
-id, name, bio, genre, hometown
+name, bio, genre, hometown
 
 ## Excerpts
 
-id, text, source, person_id
+text, source, person_id
 
 ## Keywords
 
-id, keyword
+keyword

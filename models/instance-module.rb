@@ -9,7 +9,7 @@ require "pry"
 # #save
 
 
-module FeministInstanceModule
+module FeministInstanceMethods
   
  
 
@@ -44,9 +44,9 @@ module FeministInstanceModule
       else                                                                       
         query_components_array << "#{a} = '#{value}'"                            
       end                                                                        
-    end         
+    end                                                                
     
-    query_components_array.shift                                                         
+    query_components_array.shift
     
     query_string = query_components_array.join(", ")
 

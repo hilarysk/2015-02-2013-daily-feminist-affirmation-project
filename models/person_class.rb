@@ -22,8 +22,8 @@ require_relative "instance-module.rb"
 # #initialize
 
 class Person
-  include FeministInstanceModule
-  extend FeministClassModule
+  extend FeministClassMethods
+  include FeministInstanceMethods
 
   
   attr_reader :id
@@ -41,7 +41,7 @@ class Person
   #           - @id      - Instance variable representing the person's ID within the table (primary key)
   #
   # Returns:
-  # Nil
+  # The object
   #
   # State Changes:
   # Sets instance variables @name, @state, @country, @bio, @id     
@@ -54,6 +54,17 @@ class Person
     @country = options["country"]
   end
   
+  # Public: insert
+  # Inserts the information collected in initialize into the proper table
+  #
+  # Parameters:
+  # None
+  #
+  # Returns:
+  # The object's id number
+  #
+  # State Changes:
+  # Sets @id instance variable
   
   def insert
     DATABASE.execute("INSERT INTO products (name, bio, state, country) VALUES 

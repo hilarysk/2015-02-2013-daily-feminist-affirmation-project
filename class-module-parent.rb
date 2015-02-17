@@ -1,23 +1,23 @@
-# Module: WarehouseManagerCM
+# Module: FeministClassMethods
 #
-# Toolbox for use in our Warehouse Manager program; contains class methods that could work for Product, Category, or Location classes.
+# Toolbox for use in the Daily Feminist Affirmation program; contains class methods that could work for all or most of the classes. 
 #
 # Public Methods:
-# #find_record_id
-# #find
-# #find_results_to_objects
-# #exterminate
-# #select_all
-# #delete_secondary_kvpairs
-# #delete_record
-# #select_all_names_table
-# #select_products_for_location
-# #select_products_for_category
-# #return_category
-# #delete_secondary_kvpairs
 
 
-module WarehouseManagerCM
+
+module FeministClassMethods
+  
+  
+
+  
+  
+  
+  
+  
+end
+
+module Example
   
   
   # Public: #select_all_names_table
@@ -32,6 +32,9 @@ module WarehouseManagerCM
   #
   # State changes:
   # Sets the @name_array
+  #
+  # Example: 
+  # If the user wants to see all the people included in the app
   
   def select_all_names_table(table)
     array = DATABASE.execute("SELECT name FROM #{table}")
@@ -711,7 +714,71 @@ module WarehouseManagerCM
   end
   
 
+  # Public: #find
+  # Pulls a specific row or rows given the row's ID (primary key) pulled from #find_record_id or provided by argument
+  #
+  # Parameters:
+  # options - Hash
+  #           - record_id - id: the id/s for the item/s in question
+  #           - table      - table: The specific database table we're searching             
+  #
+  # Returns:
+  # An array of hashes representing the records asked for
+  # 
+  # State changes:
+  # Sets @better_results2
+ 
+  #need to update in case of multiple IDs
+    
+  def find(options)    # -------------- find specific record
+    table = options["table"]
+    record_id = options["record_id"] 
+    
+    if record_id == nil
+    
+      if @record_id.is_a?(Array)
+        record_id = @record_id.join(" OR id = ")
+        results = DATABASE.execute("SELECT * FROM #{table} WHERE id = #{record_id}")
+      else
+        record_id = @record_id
+        results = DATABASE.execute("SELECT * FROM #{table} WHERE id = #{record_id}")
+      end
+      
+      results = DATABASE.execute("SELECT * FROM #{table} WHERE id = #{record_id}")
+    
+    else
+      results = DATABASE.execute("SELECT * FROM #{table} WHERE id = #{record_id}")
+    end
+    
+    @better_results2 = []
 
+    results.each do |hash|
+        hash.delete_if do |key, value|
+        key.is_a?(String)
+      end
+      hash.each do |key, value|
+        case
+        when key == 0
+          @better_results2 << ("<strong>ID:</strong> #{value.to_s}")
+        when key == 1
+          @better_results2 << ("<strong>Name:</strong> #{value.to_s}")
+        when key == 4
+          @better_results2 << ("<strong>Description:</strong> \"#{value.to_s}\"")
+        when key == 3
+          @better_results2 << ("<strong>Cost:</strong> $#{(sprintf("%.02f", (value * 0.01))).to_s}")
+        when key == 2
+          @better_results2 << ("<strong>Quantity:</strong> #{value.to_s}") 
+        when key == 5
+          @better_results2 << ("<strong>Serial Number:</strong> #{value.to_s}")# ----------> 
+        end
+        
+      end
+
+    end
+
+    return @better_results2.join(";<br> ")
+    
+  end
   
   def find_cat_or_loc(options)    # -------------- find specific record
     table = options["table"]
@@ -847,6 +914,7 @@ module WarehouseManagerCM
     
     DATABASE.execute("DELETE FROM #{table} WHERE id = #{record_id}")
   end
+  
   
   # Public: #exterminate
   # Permanently deletes a table

@@ -20,8 +20,8 @@ require_relative "instance-module.rb"
 # #initialize
 
 class Quote
-  extend FeministClassModule
-  include FeministInstanceModule
+  extend FeministClassMethods
+  include FeministInstanceMethods
   
 
   
@@ -38,7 +38,7 @@ class Quote
   #           - @text      - Instance variable representing the quote text 
   #
   # Returns:
-  # Nil
+  # The object
   #
   # State Changes:
   # Sets instance variables @id, @person_id, @text     
@@ -49,6 +49,17 @@ class Quote
     @person_id = options["person_id"]
   end
   
+  # Public: insert
+  # Inserts the information collected in initialize into the proper table
+  #
+  # Parameters:
+  # None
+  #
+  # Returns:
+  # The object's id number
+  #
+  # State Changes:
+  # Sets @id instance variable
   
   def insert
     DATABASE.execute("INSERT INTO quotes (text, person_id) VALUES 
