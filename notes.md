@@ -2,7 +2,11 @@
 This: <a href="https://www.facebook.com/sharer/sharer.php?u=example.org" target="_blank">
   (Share button goes here) </a>
   
-Or maybe this? <iframe src="//www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;layout=button_count&amp;appId=275052925858908" scrolling="no" frameborder="0" style="border:none; overflow:hidden;" allowTransparency="true"></iframe>
+Or maybe this? <iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2F 
+<!-- domain.com goes here --> %2F
+<!-- page name goes here -->
+&amp;width&amp;layout=standard&amp;action=like&amp;show_faces=true&amp;share=true&amp;height=80&amp;appId=275052925858908" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:80px;" allowTransparency="true"></iframe>
+  
 
 From here: https://developers.facebook.com/docs/plugins/share-button
   
