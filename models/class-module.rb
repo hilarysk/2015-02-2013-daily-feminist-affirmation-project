@@ -90,9 +90,8 @@ module FeministClassMethods
       else
         results = DATABASE.execute("SELECT * FROM #{table} WHERE  #{field} = '#{value}'")
       end
-      
-    delete_secondary_kv_pairs(results, :placeholder)  
-    
+    end
+        
     return results
   end
   
@@ -113,74 +112,166 @@ module FeministClassMethods
  
   #need to update in case of multiple IDs
     
-  def find_specific_record(options)    # -------------- specific record
-    table = options["table"]
-    field = options["field"]
-    value = options["value"] 
-    
-    if value.is_a?(Array)
-        value2 = value.join(" OR #{field} = ") # if looking for all records for specific keyword or user IP
-        results = DATABASE.execute("SELECT * FROM #{table} WHERE  #{field} = #{value2}")
-        
-    else
-      
-      if value.is_a?(Integer)
-        results = DATABASE.execute("SELECT * FROM #{table} WHERE  #{field} = #{value}")
-      else
-        results = DATABASE.execute("SELECT * FROM #{table} WHERE  #{field} = '#{value}'")
-      end 
-         
-    end
+  def format_find_specific_record(results, table)    # ----- format results from find_specific_record ^^ 
+    # table = options["table"]
+    # field = options["field"]
+    # value = options["value"]
+    #
+    # if value.is_a?(Array)
+    #     value2 = value.join(" OR #{field} = ") # if looking for all records for specific keyword or user IP
+    #     results = DATABASE.execute("SELECT * FROM #{table} WHERE  #{field} = #{value2}")
+    #
+    # else
+    #   if value.is_a?(Integer)
+    #     results = DATABASE.execute("SELECT * FROM #{table} WHERE  #{field} = #{value}")
+    #   else
+    #     results = DATABASE.execute("SELECT * FROM #{table} WHERE  #{field} = '#{value}'")
+    #   end
+    #
+    # end
     
     formatted_results = []
 
     results.each do |hash|
-        hash.delete_if do |key, value|
+      hash.delete_if do |key, value|
         key.is_a?(String)
       end
+      
       hash.each do |key, value|
         if table == "terms"
           case
             when key == 1
-              formatted_results << ("<strong>What is \"#{value.to_s}\"?</strong>") #term 
+              formatted_results << ("<strong>What is \"#{value.to_s}\"?</strong><br>") #term 
             when key == 2
-              formatted_results << ("#{value.to_s}") #definition
+              formatted_results << ("#{value.to_s}<br><br>") #definition
           end
           
         elsif table == "quotes"
           case
             when key == 1
-              formatted_results << ("<strong>\"#{value.to_s}\"</strong>") #quote text
+              formatted_results << ("<strong>\"#{value.to_s}\"</strong><br>") #quote text
             when key == 2
-              formatted_results << ("- #{value.to_s}") #quote source
+              formatted_results << ("- #{value.to_s}<br><br>") #quote source
           end
           
         elsif table == "excerpts"
           case
             when key == 1
-              formatted_results << ("<strong>\"#{value.to_s}\"</strong>") #excerpt text
+              formatted_results << ("\"#{value.to_s}\"<br>") #excerpt text
             when key == 2
-              formatted_results << ("- <em>#{value.to_s}</em>") #excerpt source (song, book, magazine)
-            when key == 3
-              Person.find_record_id
-              formatted_results << ("#{value.to_s}") #excerpt writer
+              formatted_results << ("- <strong><em>#{value.to_s}</em></strong>, ") #excerpt source (song,
+            when key == 3                                                          #book, magazine)
+              person_name = Person.find_specific_value({"table"=>"persons", "field_known"=>"id", "value"=>"#{value.to_s}", "field_unknown"=>"name"})
+              formatted_results << ("#{person_name.to_s}<br><br>") #excerpt writer
           end
-          
-          
+            
         elsif table == "persons"     # finish this
-                                     # finish this
-        elsif table == "keywords"    # finish this
-        elsif table == "likes"       # finish this
+          case
+            when key == 1
+              formatted_results << ("<strong>#{value.to_s}</strong><br>") #person name 
+            when key == 2
+              formatted_results << ("#{value.to_s}<br>") #person bio
+            when key == 3
+              if value != nil
+                formatted_results << ("Born: #{value.to_s}, ") #person state
+              else
+                formatted_results << ("Born: ")
+              end
+            when key == 4
+              formatted_results << ("#{value.to_s}<br><br>") #person country
+          end
+                                    
+        # elsif table == "keywords" # not really necessary?
+        #   case
+        #   end
+                      
+        elsif table == "likes"       
+          case
+            when key == 1
+              @user_ip = "#{value.to_s}"
+            when key == 3
+              @item_table = "#{value.to_s}"
+            when key == 2
+              @item_id = "#{value.to_s}"
+                            
+              if @item_table == "excerpts"
+                book_name = Excerpt.find_specific_value({"table"=>"excerpts", "field_known"=>"id", "value"=>"#{@item_id}", "field_unknown"=>"book"})
+                book_author_id = Excerpt.find_specific_value({"table"=>"excerpts", "field_known"=>"id", "value"=>"#{@item_id}", "field_unknown"=>"person_id"})
+                book_author = Person.find_specific_value({"table"=>"persons", "field_known"=>"id", "value"=>"#{book_author_id}", "field_unknown"=>"name"})
+                excerpt_text = Excerpt.find_specific_value({"table"=>"excerpts", "field_known"=>"id", "value"=>"#{@item_id}", "field_unknown"=>"text"})
+              
+              
+                formatted_results << ("#{@user_ip} liked the following excerpt from <em>#{book_name.to_s}</em> by #{@book_author.to_s}:<br>\"#{excerpt_text}\"<br><br>") 
+             
+              elsif @item_table == "persons"
+                person_name = Person.find_specific_value({"table"=>"persons", "field_known"=>"#{@item_id}", "value"=>"#{value.to_s}", "field_unknown"=>"name"})
+                
+                formatted_results << ("#{@user_ip} liked an entry about #{person_name.to_s}<br><br>") 
+
+              elsif @item_table == "quotes"
+                quote_text = Quote.find_specific_value({"table"=>"quotes", "field_known"=>"id", "value"=>"#{@item_id}", "field_unknown"=>"text"})
+                person_id = Quote.find_specific_value({"table"=>"quotes", "field_known"=>"id", "value"=>"#{@item_id}", "field_unknown"=>"person_id"})
+                speaker = Person.find_specific_value({"table"=>"persons", "field_known"=>"id", "value"=>"#{person_id}", "field_unknown"=>"name"})
+              
+                formatted_results << ("#{@user_ip} liked the following quote from #{speaker.to_s}:<br>\"#{quote_text}\"<br><br>") 
+              
+              elsif @item_table == "terms"
+                term = Term.find_specific_value({"table"=>"terms", "field_known"=>"#{@item_id}", "value"=>"#{value.to_s}", "field_unknown"=>"term"})
+                definition = Term.find_specific_value({"table"=>"terms", "field_known"=>"#{@item_id}", "value"=>"#{value.to_s}", "field_unknown"=>"definition"})
+              
+                formatted_results << ("#{@user_ip} liked the following term:<br><strong>#{term.to_s}:</strong> #{definition.to_s}<br><br>") 
+                  
+              end
+            end
+              
         elsif table == "matches"     # finish this
+          case
+            when key == 1
+              @keyword_id = "#{value.to_s}"
+            when key == 3
+              @item_table = "#{value.to_s}"
+            when key == 2
+              @item_id = "#{value.to_s}"
+                            
+              if @item_table == "excerpts"
+                keyword_text = Keyword.find_specific_value({"table"=>"keywords", "field_known"=>"id", "value"=>"#{@item_id}", "field_unknown"=>"keyword"})
+              
+                book_name = Excerpt.find_specific_value({"table"=>"excerpts", "field_known"=>"id", "value"=>"#{@item_id}", "field_unknown"=>"book"})
+                book_author_id = Excerpt.find_specific_value({"table"=>"excerpts", "field_known"=>"id", "value"=>"#{@item_id}", "field_unknown"=>"person_id"})
+                book_author = Person.find_specific_value({"table"=>"persons", "field_known"=>"id", "value"=>"#{book_author_id}", "field_unknown"=>"name"})
+                excerpt_text = Excerpt.find_specific_value({"table"=>"excerpts", "field_known"=>"id", "value"=>"#{@item_id}", "field_unknown"=>"text"})
+              
+              
+                formatted_results << ("<strong>TAGGED #{keyword_text.to_s.upcase}:</strong><br<br>\"#{excerpt_text}\"<br><em>#{book_name.to_s}</em>, by #{@book_author.to_s}<br><br>") 
+             
+              elsif @item_table == "persons"
+                person_name = Person.find_specific_value({"table"=>"persons", "field_known"=>"#{@item_id}", "value"=>"#{value.to_s}", "field_unknown"=>"name"})
+                
+                formatted_results << ("#{person_name.to_s}<br><br>") 
 
+              elsif @item_table == "quotes"
+                quote_text = Quote.find_specific_value({"table"=>"quotes", "field_known"=>"id", "value"=>"#{@item_id}", "field_unknown"=>"text"})
+                person_id = Quote.find_specific_value({"table"=>"quotes", "field_known"=>"id", "value"=>"#{@item_id}", "field_unknown"=>"person_id"})
+                speaker = Person.find_specific_value({"table"=>"persons", "field_known"=>"id", "value"=>"#{person_id}", "field_unknown"=>"name"})
+              
+                formatted_results << ("\"#{quote_text}\"<br><em>#{speaker.to_s}</em><br><br>") 
+              
+              elsif @item_table == "terms"
+                term = Term.find_specific_value({"table"=>"terms", "field_known"=>"#{@item_id}", "value"=>"#{value.to_s}", "field_unknown"=>"term"})
+                definition = Term.find_specific_value({"table"=>"terms", "field_known"=>"#{@item_id}", "value"=>"#{value.to_s}", "field_unknown"=>"definition"})
+              
+                formatted_results << ("<strong>#{term.to_s}:</strong> #{definition.to_s}<br><br>") 
+                  
+              end
+              
+            end
+          end
         end
-      end
       
-      end
-
     end
 
-    return formatted_results.join("<br>")
+    return formatted_results.join("")
+    
   end
     
     

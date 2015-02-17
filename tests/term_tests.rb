@@ -76,18 +76,31 @@ class DailyFemAffirm < Minitest::Test
     
   end
   
-  def test_find_specific_record
+  def test_find_specific_record_unformatted
     DATABASE.execute("DELETE FROM terms")
 
     term1 = Term.new({"term"=>"abs", "definition"=>"krs."})
     term1.insert
     
-    results = Term.find_specific_record({"table"=>"terms", "field"=>"id", "value"=>"1"})
+    results = Term.find_specific_record_unformatted({"table"=>"terms", "field"=>"id", "value"=>"1"})
     
-    assert_equal("<strong>What is \"abs\"?</strong><br>krs.", results)
+    assert_equal([{"id"=>1, "term"=>"abs", "definition"=>"krs.", 0=>1, 1=>"abs", 2=>"krs."}], results)
     
   end
   
+  def test_format_find_specific_record
+    DATABASE.execute("DELETE FROM terms")
+
+    term1 = Term.new({"term"=>"abs", "definition"=>"krs."})
+    term1.insert
+    
+    results = Term.find_specific_record_unformatted({"table"=>"terms", "field"=>"id", "value"=>"1"})
+    
+    test = Term.format_find_specific_record(results, "terms")
+    
+    assert_equal("<strong>What is \"abs\"?</strong><br>krs.<br><br>", test)
+  end
+    
   
   
 end

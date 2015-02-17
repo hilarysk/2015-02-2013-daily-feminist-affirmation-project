@@ -49,8 +49,8 @@ class Person
   def initialize(options)
     @id = options["id"]
     @name = options["name"]
-    @state = options["state"]
     @bio = options["bio"]
+    @state = options["state"]
     @country = options["country"]
   end
   
