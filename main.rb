@@ -44,7 +44,6 @@ get "/person" do #from clicking on person's name. Iterate through and find all e
   erb :person
 end
 
-
 get "/source" do #from clicking on source. Iterate through and find all examples where something comes from source
   @source = params["source"]
   erb :source
@@ -63,7 +62,6 @@ get "/person_example" do
   erb :person_example
 end
 
-
 get "/excerpt_example" do
   @excerpt_text = "And if she thought anything, it was No. No. Nono. Nonono. Simple. She just flew. Collected every bit of life she had made, all the parts of her that were precious and fine and beautiful, and carried, pushed, dragged them through the veil, out, away, over there where no one could hurt them. Over there. Outside this place, where they would be safe."
   @excerpt_source = "Beloved"
@@ -76,7 +74,41 @@ get "/excerpt_example" do
   erb :excerpt_example
 end
 
+get "/term_example" do
+  @term = "intersectional feminism"
+  @definition = "Coined by black legal scholar Kimberlé Crenshaw in 1989, 'intersectionality' refers to the intersections of different forms or systems of oppression. For modern feminism, it means bringing groups of women to the table who have often been marginalized by mainstream feminist movements, and by recognizing that the difficulties women of color face, or women with disabilities, or LGBTQ women, or poor women face can be very different than those faced by white, able-bodied, straight, middle-class women; and that their voices must no longer be silenced, and their struggles no longer ignored. Essentially, it's the idea that there is no 'one size fits all' feminism."
+  @phonetic = "ˌɪntərˈsɛkʃən(ə)l ˈfɛmɪˌnɪzəm"
+  
+  keywords = ["term", "Kimberlé Crenshaw", "intersectional"]
+  @keyword1 = keywords[0]
+  @keyword2 = keywords[1]
+  @keyword3 = keywords[2]
+  erb :term_example
+end
 
+before "/keyword" do
+  if "#{params["keyword"]}" == "term"
+    redirect to ("/all_terms")
+  end
+end
+
+get "/keyword" do
+  @keyword = params["keyword"]
+  erb :keyword
+end
+
+get "/all_terms" do
+  #page with all the terms on it
+  erb :all_terms
+end
+
+get "/about" do
+  erb :about
+end
+
+get "/search" do
+  erb :search
+end
 
 
 # binding.pry

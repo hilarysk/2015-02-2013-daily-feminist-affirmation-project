@@ -28,6 +28,10 @@ require_relative '../models/term_class.rb'
 require_relative '../models/class-module.rb'
 require_relative '../models/instance-module.rb'
 
+
+#################### Have to update tests for new attribute @phonetic ############################################
+
+
 class DailyFemAffirm < Minitest::Test
   
   def setup
