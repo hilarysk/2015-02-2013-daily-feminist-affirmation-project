@@ -1,3 +1,12 @@
+  <select name="category_id">
+  <% @all_category_info_array.each do |hash| %>
+  <option value="<%= hash["id"] %>"><%= hash["name"]%></option>
+  <% end %>
+  </select>
+  <br><br>
+
+
+
 ### Facebook share button:
 This: <a href="https://www.facebook.com/sharer/sharer.php?u=example.org" target="_blank">
   (Share button goes here) </a>
@@ -38,6 +47,12 @@ ______________________________________________________________________________
 
 * ~~Branch out from book excerpts to quotes from famous feminists (add class/table "quotes", change "author" to "contributor" or somesuch) and/or definitions (add class/table "glossary")~~
 * Let user log-in with password and be able to edit database (add excerpts, authors, etc.)
+
+
+
+
+
+
 
 
 

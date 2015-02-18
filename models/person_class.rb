@@ -9,14 +9,15 @@ require_relative "instance-module.rb"
 # Attributes:
 # @name    - String: Name of person
 # @id      - Integer: Person ID, primary key for persons table
-# @bio     - String: Number of products in inventory
+# @bio     - String: Person's biography
 # @state   - String: State where person was born
 # @country - String: Country where person was born
 # @image   - String: Link to the person's image
 # @caption - String: Caption for image
+# @source  - String: Source for the biography
 #
 # attr_reader :id
-# attr_accessor :country, :bio, :state, :name, :caption, :image
+# attr_accessor :country, :bio, :state, :name, :caption, :image, :source
 #
 # Public Methods:
 # 
@@ -29,7 +30,7 @@ class Person
 
   
   attr_reader :id
-  attr_accessor :country, :bio, :state, :name
+  attr_accessor :country, :bio, :state, :name, :source, :image, :caption
 
   # Private: initialize
   # Creates new people
@@ -43,12 +44,13 @@ class Person
   #           - @id      - the person's ID within the table (primary key)
   #           - @image   - a link to the person's image
   #           - @caption - the caption for the image
+  #           - @source  - the source of the biography
   #
   # Returns:
   # The object
   #
   # State Changes:
-  # Sets instance variables @name, @state, @country, @bio, @id, @image, @caption  
+  # Sets instance variables @name, @state, @country, @bio, @id, @image, @caption, @source
                                
   def initialize(options)
     @id = options["id"]
@@ -58,6 +60,7 @@ class Person
     @country = options["country"]
     @image = options["image"]
     @caption = options["caption"]
+    @source = options["source"]
   end
   
   # Public: insert
@@ -73,8 +76,8 @@ class Person
   # Sets @id instance variable
   
   def insert
-    DATABASE.execute("INSERT INTO products (name, bio, state, country, image, caption) VALUES 
-                    ('#{@name}', '#{@bio}', '#{@state}', '#{@country}', '#{@image}', '#{@caption}')")
+    DATABASE.execute("INSERT INTO products (name, bio, state, country, image, caption, source) VALUES 
+                    ('#{@name}', '#{@bio}', '#{@state}', '#{@country}', '#{@image}', '#{@caption}', '#{@source})")
     @id = DATABASE.last_insert_row_id
   end
 

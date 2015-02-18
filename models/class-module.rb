@@ -153,8 +153,6 @@ module FeministClassMethods
           case
             when key == 1
               formatted_results << ("<strong>#{value.to_s}</strong><br>") #person name 
-            when key == 2
-              formatted_results << ("#{value.to_s}<br>") #person bio
             when key == 3
               if value != nil
                 formatted_results << ("Born: #{value.to_s}, ") #person state
@@ -163,10 +161,14 @@ module FeministClassMethods
               end
             when key == 4
               formatted_results << ("#{value.to_s}<br><br>") #person country
+            when key == 2
+              formatted_results << ("#{value.to_s}<br>") #person bio
+            when key == 7
+              formatted_results << ("<strong><em>Source: #{value.to_s}</strong></em><br>")
             when key == 5
               formatted_results << ("<img class='personimage' src='#{value.to_s}'>") # person image
             when key == 6
-              formatted_results << ("<p class='imagecaption'>#{value.to_s}") #person image caption
+              formatted_results << ("<p class='imagecaption'>#{value.to_s}</p<") #person image caption
           end
                                     
         # elsif table == "keywords" # not really necessary?

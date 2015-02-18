@@ -120,14 +120,14 @@ div.excerpttext span {
 
 .termphonetic {
   font-family: Tahoma, Verdana, sans-serif; 
-  margin-left: 15%;
+  margin-left: 25%;
 }
 
 .termterm {
   font-family: Tahoma, Verdana, sans-serif;
   font-style: italic; 
   font-size: x-large;
-  margin-left: 20%; 
+  margin-left: 30%; 
   position: relative;
   margin-top: -10px; 
 }
@@ -141,7 +141,7 @@ td.termdefinition {
 
 .termtable {
     width: 500px;
-    margin-left: 20%;
+    margin-left: 30%;
 }
 
 td.termimage {
@@ -150,7 +150,37 @@ td.termimage {
   vertical-align: top;
 }
 
+td.quoteleftquotationmark {
+  vertical-align: top;
+  position: relative;
+  padding-top: 10px;
+}
 
+td.quoterightquotationmark {
+  vertical-align: bottom;
+  position: relative;
+  padding-bottom: 30px;
+}
+
+.quotetable {
+  font-family: Georgia;
+  width: 400px;
+  margin-left: 30%;
+}
+
+td.quotetext {
+  font-size: x-large;
+  width: 350px;
+  text-align: justify;
+
+}
+
+.quoteperson {
+  font-family: Helvetica;
+  font-size: large;
+  font-style: italic;
+  align: right;
+}
 
 
 
