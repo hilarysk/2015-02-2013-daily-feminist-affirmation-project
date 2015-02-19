@@ -9,7 +9,10 @@
       <td class="termimage"><img src="/curvedskinnyarrow.jpg" width="150"></td>
       <td class="termdefinition"><p align="justify"><%= "#{@definition}" %></p>
       <p>____________________________________</p>
-      <p class="keywordtext">Tags: <a href="/keyword?keyword=<%= "#{@keyword1}" %>"><%= "#{@keyword1}" %></a>, <a href="/keyword?keyword=<%= "#{@keyword2}" %>"><%= "#{@keyword2}" %></a>, <a href="/keyword?keyword=<%= "#{@keyword3}" %>"><%= "#{@keyword3}" %></a></p>
+      <p class="keywordtext">TAGS: <% @keywords.each do |keyword1| %>
+  <a href="/keyword?keyword=<%= "#{keyword1}" %>"><%= "#{keyword1}" %></a><%= " | " %>  
+<% end %>
+</p> 
       <p><iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Flocalhost%3A4567%2Fperson_example&amp;width&amp;layout=standard&amp;action=like&amp;show_faces=true&amp;share=true&amp;height=80&amp;appId=275052925858908" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:80px;" allowTransparency="true"></iframe></p>
       </td>
     </tr>

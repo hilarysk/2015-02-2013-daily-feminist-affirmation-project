@@ -5,25 +5,10 @@
 
 
 
-  <!-- <select name="category_id">
-  <% @all_category_info_array.each do |hash| %>
-  <option value="<%= hash["id"] %>"><%= hash["name"]%></option>
-  <% end %>
-  </select>
-  <br><br> -->
-
-
-
-<p class="keywordtext">Tags: <%= @keywords.each do |keyword1| %>
-  keyword 1 = (<a href="/keyword?keyword=<%= "#{keyword1}" %>"><%= "#{keyword1}" %></a>)
-  <% end %>
-  <%= @keywords.join(", ") %>
+<p class="keywordtext">TAGS: <% @keywords.each do |keyword1| %>
+  <a href="/keyword?keyword=<%= "#{keyword1}" %>"><%= "#{keyword1}" %></a><%= " | " %>  
+<% end %>
 </p> 
-  
-  
-  
-  
-  
 <p><iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Flocalhost%3A4567%2Fperson_example&amp;width&amp;layout=standard&amp;action=like&amp;show_faces=true&amp;share=true&amp;height=80&amp;appId=275052925858908" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:80px;" allowTransparency="true"></iframe></p></div>
   
 
