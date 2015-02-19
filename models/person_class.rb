@@ -45,6 +45,7 @@ class Person
   #           - @image   - a link to the person's image
   #           - @caption - the caption for the image
   #           - @source  - the source of the biography
+  #           - @used       - holds value 0 for if not used yet; 1 for if used
   #
   # Returns:
   # The object
@@ -61,6 +62,7 @@ class Person
     @image = options["image"]
     @caption = options["caption"]
     @source = options["source"]
+    
   end
   
   # Public: insert
@@ -76,8 +78,8 @@ class Person
   # Sets @id instance variable
   
   def insert
-    DATABASE.execute("INSERT INTO products (name, bio, state, country, image, caption, source) VALUES 
-                    ('#{@name}', '#{@bio}', '#{@state}', '#{@country}', '#{@image}', '#{@caption}', '#{@source})")
+    DATABASE.execute("INSERT INTO persons (name, bio, state, country, image, caption, source) VALUES 
+                    ('#{@name}', '#{@bio}', '#{@state}', '#{@country}', '#{@image}', '#{@caption}', '#{@source}' )")
     @id = DATABASE.last_insert_row_id
   end
 

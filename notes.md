@@ -1,3 +1,94 @@
+        
+SELECT table1.column_name, table1.column_name2, table1.column_name3, table2.column_name
+FROM table1
+JOIN table2
+ON table1.column_name = table2.column_name;
+
+
+
+
+ =>  keyword    |   item_id    |  item_type
+ ------------------------------------------------
+    1                  3              2
+    1                 3              1
+    1                 15             3
+    1                 27             4
+    1                 27             4
+    1                 27             4
+    1                
+
+
+SELECT keywords.keyword, matches.item_id, matches.item_type FROM keywords JOIN matches ON keywords.id = matches.keyword_id
+ 
+ =>  keyword    |   item_id    |  item_table_namee_
+ ------------------------------------------------
+     term            3              2
+     quote           3              1
+    toni morrison    15             3
+    toni morrison    27             4
+    beloved          27             4
+    excerpt          27             4
+    
+ 
+ SELECT keywords.keyword, matches.item_id, types.name FROM keywords JOIN matches ON keywords.id = matches.keyword_id JOIN types ON types.id = matches.item_type
+ 
+ =>  keyword    |   item_id    |  name
+ ------------------------------------------------
+     term            3              terms
+     quote           3              quotes
+    toni morrison    15             person
+    toni morrison    27             excerpts
+    beloved          27             excerpts
+    excerpt          27             excerpts
+    
+ 
+----> trying to  
+ 
+ =>  keyword_id   |   terms_id  
+ -----------------------------
+       1                3        
+       1                3        
+       1                15       
+       1                27       
+       1                27       
+       1                27       
+ 
+ =>  keyword_id    |   quotes_id  
+ -----------------------------
+        1             3        
+        1             3        
+        1             15       
+        1             27       
+        1             27       
+        1             27       
+        1         
+        
+        
+        
+        =>  keyword    |  excerpt.name   |  excerpt.text | 
+        ------------------------------------------------
+            term            3              terms
+            quote           3              quotes
+           toni morrison    15             person
+           toni morrison    27             excerpts
+           beloved          27             excerpts
+           excerpt          27             excerpts
+        
+ 
+ 
+  SELECT keywords.keyword, matches.item_id, types.name FROM keywords JOIN matches ON keywords.id = matches.keyword_id JOIN types ON types.id = matches.item_type
+ 
+ 
+ 
+ 
+ Type table
+ ID  name
+ 1  quotes
+ 2  terms
+ 3  persons
+ 4 excerpts
+ 
+ 
   <select name="category_id">
   <% @all_category_info_array.each do |hash| %>
   <option value="<%= hash["id"] %>"><%= hash["name"]%></option>
@@ -38,14 +129,13 @@ ______________________________________________________________________________
 #*"Should not" cases*
 
 * Have authors, excerpts or keywords listed more than once
-* Repeat excerpt until has gone through entire list
 * Create JPG/PDF to download until user specifically requests one
 * Be able to create author without all additional information; same for excerpts
 * Be able to assign a value to the author_id field in the excerpts table unless that ID already exists as a primary key in the authors table
 
 #*Extensions*
 
-* ~~Branch out from book excerpts to quotes from famous feminists (add class/table "quotes", change "author" to "contributor" or somesuch) and/or definitions (add class/table "glossary")~~
+* Don't repeat until has gone through entire list for specific IP address (use session?)
 * Let user log-in with password and be able to edit database (add excerpts, authors, etc.)
 
 

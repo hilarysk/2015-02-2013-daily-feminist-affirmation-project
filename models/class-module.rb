@@ -75,7 +75,7 @@ module FeministClassMethods
   # State changes:
   # None
     
-  def find_specific_record_unformatted(options)
+  def find_specific_record_unformatted(options) # NOT FOR KEYWORD TABLES
     table = options["table"]
     field = options["field"]
     value = options["value"] 
@@ -114,7 +114,7 @@ module FeministClassMethods
     
   def format_find_specific_record(results, table)    # ----- format results from find_specific_record ^^ 
     
-    formatted_results = []                            # ------ refactor turning each "if" action into separate method
+    formatted_results = []                            # ------ refactor using partials
 
     results.each do |hash|
       hash.delete_if do |key, value|
@@ -214,16 +214,18 @@ module FeministClassMethods
               end
           end
               
-        elsif table == "matches"     # finish this
+        elsif table == "keywords_items"     # finish this
           case
             when key == 1
               @keyword_id = "#{value.to_s}"
             when key == 3
-              @item_table = "#{value.to_s}"
+              @item_table_name = ItemTable.find_specific_value({"table"=>"", "field_known"=>"id", "value"=>"#{value.to_s}", "field_unknown"=>"table_name"})      
             when key == 2
               @item_id = "#{value.to_s}"
+              
+              
                             
-              if @item_table == "excerpts"
+              if @item_table_name == "excerpts"
                 keyword_text = Keyword.find_specific_value({"table"=>"keywords", "field_known"=>"id", "value"=>"#{@item_id}", "field_unknown"=>"keyword"})
               
                 book_name = Excerpt.find_specific_value({"table"=>"excerpts", "field_known"=>"id", "value"=>"#{@item_id}", "field_unknown"=>"book"})
@@ -234,19 +236,19 @@ module FeministClassMethods
               
                 formatted_results << ("<strong>TAGGED #{keyword_text.to_s.upcase}:</strong><br<br>\"#{excerpt_text}\"<br><em>#{book_name.to_s}</em>, by #{@book_author.to_s}<br><br>") 
              
-              elsif @item_table == "persons"
+              elsif @item_table_name == "persons"
                 person_name = Person.find_specific_value({"table"=>"persons", "field_known"=>"#{@item_id}", "value"=>"#{value.to_s}", "field_unknown"=>"name"})
                 
                 formatted_results << ("#{person_name.to_s}<br><br>") 
 
-              elsif @item_table == "quotes"
+              elsif @item_table_name == "quotes"
                 quote_text = Quote.find_specific_value({"table"=>"quotes", "field_known"=>"id", "value"=>"#{@item_id}", "field_unknown"=>"text"})
                 person_id = Quote.find_specific_value({"table"=>"quotes", "field_known"=>"id", "value"=>"#{@item_id}", "field_unknown"=>"person_id"})
                 speaker = Person.find_specific_value({"table"=>"persons", "field_known"=>"id", "value"=>"#{person_id}", "field_unknown"=>"name"})
               
                 formatted_results << ("\"#{quote_text}\"<br><em>#{speaker.to_s}</em><br><br>") 
               
-              elsif @item_table == "terms"
+              elsif @item_table_name == "terms"
                 term = Term.find_specific_value({"table"=>"terms", "field_known"=>"#{@item_id}", "value"=>"#{value.to_s}", "field_unknown"=>"term"})
                 definition = Term.find_specific_value({"table"=>"terms", "field_known"=>"#{@item_id}", "value"=>"#{value.to_s}", "field_unknown"=>"definition"})
               

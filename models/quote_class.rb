@@ -35,7 +35,7 @@ class Quote
   # options - Hash
   #           - @id        - Instance variable representing the quote ID (primary key)
   #           - @person_id - Instance variable representing the quoter's ID (persons table primary key)
-  #           - @text      - Instance variable representing the quote text 
+  #           - @text      - Instance variable representing the quote text
   #
   # Returns:
   # The object
@@ -47,6 +47,7 @@ class Quote
     @id = options["id"]
     @text = options["text"]
     @person_id = options["person_id"]
+    
   end
   
   # Public: insert

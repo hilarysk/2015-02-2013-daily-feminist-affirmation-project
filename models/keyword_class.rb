@@ -60,7 +60,7 @@ class Keyword
   
   def insert
     DATABASE.execute("INSERT INTO keywords (keyword) VALUES 
-                    ('#{@keyword})")
+                    ('#{@keyword}')")
     @id = DATABASE.last_insert_row_id
   end
 

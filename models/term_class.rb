@@ -38,12 +38,13 @@ class Term
   #           - @definition - the term's definition
   #           - @term       - the term 
   #           - @phonetic   - phonetic spelling of the term
+  #           - @used       - holds value 0 for if not used yet; 1 for if used
   #
   # Returns:
   # An object of the class
   #
   # State Changes:
-  # Sets instance variables @id, @definition, @term, @phonetic     
+  # Sets instance variables @id, @definition, @term, @phonetic, @used     
                                
   def initialize(options)
     @id = options["id"]
@@ -66,7 +67,7 @@ class Term
   
   def insert
     DATABASE.execute("INSERT INTO terms (term, definition, phonetic) VALUES 
-                    ('#{@term}', '#{@definition}', '#{@phonetic})'")
+                    ('#{@term}', '#{@definition}', '#{@phonetic}'})")
     @id = DATABASE.last_insert_row_id
   end
 
