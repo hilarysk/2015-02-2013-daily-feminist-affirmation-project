@@ -67,7 +67,7 @@ class Term
   
   def insert
     DATABASE.execute("INSERT INTO terms (term, definition, phonetic) VALUES 
-                    ('#{@term}', '#{@definition}', '#{@phonetic}'})")
+                    ('#{@term}', '#{@definition}', '#{@phonetic}')")
     @id = DATABASE.last_insert_row_id
   end
 

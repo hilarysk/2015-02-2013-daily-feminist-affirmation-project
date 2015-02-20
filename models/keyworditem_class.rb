@@ -17,7 +17,7 @@ require_relative "instance-module.rb"
 # Private Methods:
 # #initialize
 
-class KeywordsTerms
+class KeywordItem
   extend FeministClassMethods
   include FeministInstanceMethods
 
@@ -51,15 +51,15 @@ class KeywordsTerms
   # None
   #
   # Returns:
-  # @id
+  # None
   #
   # State Changes:
   # None
   
   def insert
-    DATABASE.execute("INSERT INTO keywords_terms (keyword_id, item_id, item_table_id) VALUES 
+    DATABASE.execute("INSERT INTO keywords_items (keyword_id, item_id, item_table_id) VALUES 
                     (#{@keyword_id}, #{@item_id}, #{@item_table_id})")
-    @id = DATABASE.last_insert_row_id
+
   end
 
     
