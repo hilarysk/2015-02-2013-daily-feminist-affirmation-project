@@ -1,31 +1,34 @@
 <!--would iterate through and find all examples and print them in a nice neat row. for now,  -->
-
-<div class="keywordlist"><h1>Items tagged "<%= "#{@keyword}" %>":</h1>
+<h1 class="keywordheader">Items tagged "<%= "#{@keyword}" %>"</h1><br><br>
+<div class="keywordlist">
 
   <%  @results.each do |hash| %>
    <% if hash.keys[1] == "quote" %>
     <%  @quote = hash["quote"]%>
     <%  @quoter = hash["person_id"]%>
-    <p><strong>QUOTE</strong><br><br>
-    <strong>"<%= "#{@quote}" %>"</strong><br>
-    - <%= "#{@quoter}" %><br><br></p>  
+    <hr></hr><br>
+    <p align="center"><strong>QUOTE</strong></p>
+    <p>"<%= "#{@quote}" %>"</p>
+    <p align="right"><em>- <%= "#{@quoter}" %></em><br></p>  
    
    <% elsif hash.keys[1] == "term"%>
    <%   @term = hash["term"]%>
    <%   @definition = hash["definition"]%>
    <%   @phonetic = hash["phonetic"]%>
-   <p><strong>TERM</strong><br><br>
-   <strong><%= "#{@term}" %></strong><br>
+   <hr></hr><br>
+   <p align="center"><strong>TERM</strong></p>
+  <p><strong><%= "#{@term}" %></strong><br>
    <em><%= "#{@phonetic}" %></em><br><br>
-   Definition: <%= "#{@definition}" %><br><br></p>
+   <%= "#{@definition}" %><br></p>
   
    <% elsif hash.keys[1] == "excerpt"%>
      <% @excerpt = hash["excerpt"]%>
-     <% @author = hash["person"]%>
+     <% @author = hash["person_id"]%>
      <% @book = hash["source"]%>   
-     <p><strong>EXCERPT</strong><br><br>
-      "<%= "#{@excerpt}" %>"<br>
-      - <em><%= "#{@book}" %></em>, <%= "#{@author}" %><br><br></p>
+     <hr></hr><br>
+     <p align="center"><strong>EXCERPT</strong></p>
+      <p>"<%= "#{@excerpt}" %>"</p>
+      <p align="right">- <em><%= "#{@book}" %></em>, <%= "#{@author}" %><br></p>
 
    <% elsif hash.keys[1] == "person"%>
      <% @bio = hash["bio"]%>
@@ -34,21 +37,21 @@
      <% @source = hash["source"]%>
        <% if hash["state"] == ""%>
          <% @state = "" %>
-        <% else  %>
+       <% else  %>
           <% @state = "#{hash["state"]}, " %>
        <% end  %>
-     <% @state = hash["state"]%>
      <% @country = hash["country"]%>
      <% @caption = hash["caption"]%>
-     <p><strong>PERSON</strong><br><br>
-      <strong><%= "#{@name.upcase}" %></strong><br>
-      <a href="<%= "#{@image}" %>"><img src="<%= "#{@image}" %>" alt="<%= "#{@caption}" %>" width="50px"></a><br><br>
+     <hr></hr><br>
+     <p align="center"><strong>PERSON</strong></p>
+     <p><strong><%= "#{@name}" %></strong><br><br>
+      <a href="<%= "#{@image}" %>"><img src="<%= "#{@image}" %>" width="100px"></a><br><br>
       <strong>Birthplace:</strong> <%= "#{@state} #{@country}" %><br><br>
-      <%= "#{@bio}" %><br>
-      - <em><%= "#{@source}" %></em><br><br></p>
+      <%= "#{@bio}" %></p>
+      <p align="right">- <em><%= "#{@source}" %></em><br></p>
      
    <% end %>
- <% end %></div>
+ <% end %></div><p></p>
 
 
 

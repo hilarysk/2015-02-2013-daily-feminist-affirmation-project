@@ -100,7 +100,7 @@ get "/keyword" do
   @keyword = params["keyword"]
   @results = KeywordItem.get_array_items_for_keyword({"keyword"=>"#{@keyword.to_s}"})
   
-  erb :keyword
+  erb :keyword_partials
 end
 
 get "/about" do

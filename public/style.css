@@ -192,8 +192,14 @@ td.quotetext {
 }
 
 .keywordlist {
-  width: 400px;
+  width: 500px;
   margin-left: 20%;
+  padding-bottom: 40px;
+}
+
+h1.keywordheader {
+  margin-left: 20%;
+  margin-bottom: 10px;
 }
 
 
