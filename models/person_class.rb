@@ -7,7 +7,7 @@ require_relative "instance-module.rb"
 # Creates different people and gets information about them.
 #
 # Attributes:
-# @name    - String: Name of person
+# @person  - String: Name of person
 # @id      - Integer: Person ID, primary key for persons table
 # @bio     - String: Person's biography
 # @state   - String: State where person was born
@@ -17,7 +17,7 @@ require_relative "instance-module.rb"
 # @source  - String: Source for the biography
 #
 # attr_reader :id
-# attr_accessor :country, :bio, :state, :name, :caption, :image, :source
+# attr_accessor :country, :bio, :state, :person, :caption, :image, :source
 #
 # Public Methods:
 # 
@@ -30,14 +30,14 @@ class Person
 
   
   attr_reader :id
-  attr_accessor :country, :bio, :state, :name, :source, :image, :caption
+  attr_accessor :country, :bio, :state, :person, :source, :image, :caption
 
   # Private: initialize
   # Creates new people
   #
   # Parameters:
   # options - Hash
-  #           - @name    - the person's name
+  #           - @person  - the person's name
   #           - @state   - the person's state
   #           - @bio     - the person's short biography 
   #           - @country - the person's country
@@ -45,17 +45,16 @@ class Person
   #           - @image   - a link to the person's image
   #           - @caption - the caption for the image
   #           - @source  - the source of the biography
-  #           - @used       - holds value 0 for if not used yet; 1 for if used
   #
   # Returns:
   # The object
   #
   # State Changes:
-  # Sets instance variables @name, @state, @country, @bio, @id, @image, @caption, @source
+  # Sets instance variables @person, @state, @country, @bio, @id, @image, @caption, @source
                                
   def initialize(options)
     @id = options["id"]
-    @name = options["name"]
+    @person = options["person"]
     @bio = options["bio"]
     @state = options["state"]
     @country = options["country"]
@@ -78,8 +77,8 @@ class Person
   # Sets @id instance variable
   
   def insert
-    DATABASE.execute("INSERT INTO persons (name, bio, state, country, image, caption, source) VALUES 
-                    ('#{@name}', '#{@bio}', '#{@state}', '#{@country}', '#{@image}', '#{@caption}', '#{@source}' )")
+    DATABASE.execute("INSERT INTO persons (person, bio, state, country, image, caption, source) VALUES 
+                    ('#{@person}', '#{@bio}', '#{@state}', '#{@country}', '#{@image}', '#{@caption}', '#{@source}')")
     @id = DATABASE.last_insert_row_id
   end
 

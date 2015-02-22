@@ -1,2 +1,35 @@
-<h1><%= color %></h1>
+<h1><%= type %></h1>
 <h1><%= fish %></h1>
+
+
+<!-- <% @results.each do |hash|  %>
+    <%= erb :"_#{hash.keys[1].to_s}", :locals => {:type => hash.values[1]}%>
+    <% end %></div> %> -->
+<!-- <%  @results.each do |hash| %>
+      <%if hash.keys[1] == "quote"%>
+      <%  @quote = hash["quote"]%>
+      <%  @quoter = hash["person_id"]%>
+      <%= erb :quote, :locals => {:quote => "#{hash["quote"].to_s}", :quoter => "#{hash["person_id"].to_s}"}>%>
+
+     <% elsif hash.keys[1] == "term"%>
+      <%  @term = hash["term"]%>
+      <%  @definition = hash["definition"]%>
+      <%  @phonetic = hash["phonetic"]%>
+
+     <% elsif hash.keys[1] == "excerpt"%>
+      <%  @excerpt = hash["excerpt"]%>
+       <% @author = hash["person"]%>
+      <%  @book = hash["source"]%>
+
+     <% elsif hash.keys[1] == "person"%>
+      <%  @bio = hash["bio"]%>
+       <% @name = hash["person"]%>
+       <% @image = hash["image"]%>
+       <% @source = hash["source"]%>
+       <% @state = hash["state"]%>
+       <% @country = hash["country"]%>
+       <% @caption = hash["caption"]%>
+     <% end%>
+  <%  end%>
+
+ -->

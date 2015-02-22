@@ -1,4 +1,11 @@
-        
+
+def his_madness
+  psychosis = true
+end
+#################################################################        
+
+
+
 SELECT table1.column_name, table1.column_name2, table1.column_name3, table2.column_name
 FROM table1
 JOIN table2

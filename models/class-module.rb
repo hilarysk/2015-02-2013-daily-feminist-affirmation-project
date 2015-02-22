@@ -11,6 +11,160 @@
 # #exterminate
 
 module FeministClassMethods
+    
+  
+  def get_array_keywords_for_item(options)
+    id_of_item = options["id_of_item"].to_i
+    table_name = options["table"].to_s
+    
+    keywords_array = DATABASE.execute("select keywords.keyword, item_id, items_tables.table_name FROM keywords_items JOIN keywords ON keywords_items.keyword_id = keywords.id JOIN items_tables ON keywords_items.item_table_id = items_tables.id")
+    # ==> [{"keyword"=>"Beloved","item_id"=>1, "table_name"=>"excerpts", 0=>"Beloved", 1=>1, 2=>"excerpts"}, {"keyword"=>"United States", "item_id"=>1,"table_name"=>"excerpts", 0=>"United States", 1=>1, 2=>"excerpts"}]
+    
+    delete_secondary_kvpairs(keywords_array, :placeholder) # ==>keywords_array = [{"keyword"=>"Beloved","item_id"=>1, "table_name"=>"excerpts"}, {"keyword"=>"United States", "item_id"=>1,"table_name"=>"excerpts""}]
+    
+    keywords = []
+    
+    keywords_array.each do |hash|
+      if hash["item_id"] == id_of_item && hash["table_name"] == "#{table_name}"
+        keywords << hash["keyword"]
+      end
+    end
+  
+    
+    return keywords  #==> ["Beloved", "United States"]
+    
+  end
+  
+  
+  
+  
+  
+  
+    
+  def array_of_quote_records
+    quotes_array = DATABASE.execute("SELECT quotes.id, quotes.quote, persons.person FROM quotes JOIN persons ON quotes.person_id = persons.id") # returns array of hashes, each has is a record
+    
+    delete_secondary_kvpairs(quotes_array, :placeholder)
+    
+    return quotes_array #==> quotes_array = [{"id"=>"1", "quote"=>"sldkjflaskdjfaksldjfaklsdfjasdf", "person"=>"Ella Baker"}]
+  
+  end  
+    
+    
+  def array_of_excerpt_records
+    excerpts_array = DATABASE.execute("SELECT excerpts.id, excerpts.excerpt, excerpts.source, persons.person FROM excerpts JOIN persons ON excerpts.person_id = persons.id") # returns array of hashes, each has is a record
+    
+    delete_secondary_kvpairs(excerpts_array, :placeholder)
+    
+    return excerpts_array #==> excerpts_array = [{"id"=>"1", "excerpt"=>"sldkjflaskdjfaksldjfaklsdfjasdf", "person"=>"Ella Baker"}]
+ 
+  end
+    
+    
+  def array_of_term_records
+    terms_array = DATABASE.execute("SELECT id, term, definition, phonetic FROM terms") # returns array of hashes, each has is a record
+    
+    delete_secondary_kvpairs(terms_array, :placeholder)
+    
+    return terms_array #==> terms_array = [{"id"=>"1", "term"=>"femme", "definition"=>"yoyo", "phonetic"=>"hexadecimal unicode baby"}]
+ 
+  end
+  
+  
+  def array_of_person_records
+    persons_array = DATABASE.execute("SELECT id, person, bio, state, country, image, caption, source FROM persons") # returns array of hashes, each has is a record
+    
+    delete_secondary_kvpairs(persons_array, :placeholder)
+    
+    return persons_array  #==> persons_array = [{"id"=>"1", "person"=>"Ella Baker", "bio"=>"amazing woman", "state"=>"texarkana", "country"=>"us",                                                                            "image"=>"http://whatever.jpg", "caption"=>"he took it", "source"=>"<a href="http://whatever.com">Whatever</a>"}]
+ 
+  end
+
+    
+    
+  def get_array_items_for_keyword(options)
+    keyword_text = options["keyword"].to_s
+    
+    keywords_array = DATABASE.execute("select keywords.keyword, item_id, items_tables.table_name FROM keywords_items JOIN keywords ON keywords_items.keyword_id = keywords.id JOIN items_tables ON keywords_items.item_table_id = items_tables.id")
+    # ==> [{"keyword"=>"Beloved","item_id"=>1, "table_name"=>"excerpts", 0=>"Beloved", 1=>1, 2=>"excerpts"}, {"keyword"=>"United States", "item_id"=>1,"table_name"=>"excerpts", 0=>"United States", 1=>1, 2=>"excerpts"}]
+    
+    delete_secondary_kvpairs(keywords_array, :placeholder) # ==>keywords_array = [{"keyword"=>"Beloved","item_id"=>1, "table_name"=>"excerpts"}, {"keyword"=>"United States", "item_id"=>1,"table_name"=>"excerpts""}]
+    
+    keywords = []
+    
+    keywords_array.each do |hash|
+      if hash["keyword"] == "#{keyword_text}"
+        keywords.push({"id"=>"#{hash["item_id"].to_s}", "table_name"=>"#{hash["table_name"].to_s}"})
+      end
+    end     #==> [{"id"=>"1", "table_name"=>"excerpts"}, {"id"=>"2","table_name"=>"quotes"}]
+  
+    tagged_items = []
+    
+    keywords.each do |hash|
+      table_name = "#{hash["table_name"].to_s}"
+      item_id = "#{hash["id"]}"
+      tagged_items.push(DATABASE.execute("SELECT * FROM #{table_name} WHERE id = #{item_id}"))
+    end   
+    
+    tagged_items.flatten! 
+    
+    delete_secondary_kvpairs(tagged_items, :placeholder)
+    
+    
+     #==> [{"id"=>1, "excerpt"=>"And if she thoutght that", "source"=>"Beloved", "person_id"=>9}, {"id"=>2,"excerpt"=>"I would give up                     the unessential.", "source"=>"The Awakening", "person_id"=>8}]
+    
+    tagged_items.each do |hash|
+     
+     if hash.keys[1] == "quote" || hash.keys[1] == "excerpt"
+        name = DATABASE.execute("SELECT person FROM persons WHERE id = #{hash["person_id"].to_s}") 
+        hash["person_id"] = name[0]["person"]      
+      end
+    end
+    
+    return tagged_items
+        
+  end
+  
+  
+  
+  
+  
+  # Public: #find_specifc_record_unformatted
+  # Pulls a specific row or rows
+  #
+  # Parameters:
+  # options - Hash
+  #           - field - the field you want to search
+  #           - table - the table you want to search     
+  #           - value - The value you want to search                     
+  #
+  # Returns:
+  # An array of hashes representing the records asked for
+  # 
+  # State changes:
+  # None
+    
+  def find_specific_record_unformatted(options) # NOT FOR KEYWORD TABLES
+    table = options["table"]
+    field = options["field"]
+    value = options["value"] 
+    
+    if value.is_a?(Array)
+        value2 = value.join(" OR #{field} = ") # if looking for all records for specific keyword or user IP
+        results = DATABASE.execute("SELECT * FROM #{table} WHERE  #{field} = #{value2}")
+        
+    else
+      if value.is_a?(Integer)
+        results = DATABASE.execute("SELECT * FROM #{table} WHERE  #{field} = #{value}")
+      else
+        results = DATABASE.execute("SELECT * FROM #{table} WHERE  #{field} = '#{value}'")
+      end
+    end
+        
+    return results
+  end
+  
+  
   
   
   # Public: #find_specific_value
@@ -59,213 +213,6 @@ module FeministClassMethods
     
   end
   
-  
-  # Public: #find_specifc_record_unformatted
-  # Pulls a specific row or rows
-  #
-  # Parameters:
-  # options - Hash
-  #           - field - the field you want to search
-  #           - table - the table you want to search     
-  #           - value - The value you want to search                     
-  #
-  # Returns:
-  # An array of hashes representing the records asked for
-  # 
-  # State changes:
-  # None
-    
-  def find_specific_record_unformatted(options) # NOT FOR KEYWORD TABLES
-    table = options["table"]
-    field = options["field"]
-    value = options["value"] 
-    
-    if value.is_a?(Array)
-        value2 = value.join(" OR #{field} = ") # if looking for all records for specific keyword or user IP
-        results = DATABASE.execute("SELECT * FROM #{table} WHERE  #{field} = #{value2}")
-        
-    else
-      if value.is_a?(Integer)
-        results = DATABASE.execute("SELECT * FROM #{table} WHERE  #{field} = #{value}")
-      else
-        results = DATABASE.execute("SELECT * FROM #{table} WHERE  #{field} = '#{value}'")
-      end
-    end
-        
-    return results
-  end
-  
-  # Public: #find_specific_record
-  # Pulls a specific row or rows and formats it
-  #
-  # Parameters:
-  # options - Hash    
-  #           - field - the field you want to search
-  #           - table - the table you want to search 
-  #           - value - The value you want to search for
-  #
-  # Returns:
-  # A formatted list of the record/s in an easy-to-read layout. 
-  # 
-  # State changes:
-  # None
- 
-  ############################################################################################################ => 
-    
-  def format_find_specific_record(results, table)    # ----- format results from find_specific_record ^^ 
-    
-    formatted_results = []                            # ------ refactor using partials
-
-    results.each do |hash|
-      hash.delete_if do |key, value|
-        key.is_a?(String)
-      end
-      
-      hash.each do |key, value|
-        if table == "terms"
-          case
-            when key == 1
-              formatted_results << ("<strong>What is \"#{value.to_s}\"?</strong><br>") #term 
-            when key == 2
-              formatted_results << ("#{value.to_s}<br><br>") #definition
-          end
-          
-        elsif table == "quotes"
-          case
-            when key == 1
-              formatted_results << ("<strong>\"#{value.to_s}\"</strong><br>") #quote text
-            when key == 2
-              formatted_results << ("- #{value.to_s}<br><br>") #quote source
-          end
-          
-        elsif table == "excerpts"
-          case
-            when key == 1
-              formatted_results << ("\"#{value.to_s}\"<br>") #excerpt text
-            when key == 2
-              formatted_results << ("- <strong><em>#{value.to_s}</em></strong>, ") #excerpt source (song,
-            when key == 3                                                          #book, magazine)
-              person_name = Person.find_specific_value({"table"=>"persons", "field_known"=>"id", "value"=>"#{value.to_s}", "field_unknown"=>"name"})
-              formatted_results << ("#{person_name.to_s}<br><br>") #excerpt writer
-          end
-            
-        elsif table == "persons"     # finish this
-          case
-            when key == 1
-              formatted_results << ("<strong>#{value.to_s}</strong><br>") #person name 
-            when key == 3
-              if value != nil
-                formatted_results << ("Born: #{value.to_s}, ") #person state
-              else
-                formatted_results << ("Born: ")
-              end
-            when key == 4
-              formatted_results << ("#{value.to_s}<br><br>") #person country
-            when key == 2
-              formatted_results << ("#{value.to_s}<br>") #person bio
-            when key == 7
-              formatted_results << ("<strong><em>Source: #{value.to_s}</strong></em><br>")
-            when key == 5
-              formatted_results << ("<img class='personimage' src='#{value.to_s}'>") # person image
-            when key == 6
-              formatted_results << ("<p class='imagecaption'>#{value.to_s}</p<") #person image caption
-          end
-                                    
-        # elsif table == "keywords" # not really necessary?
-        #   case
-        #   end
-                      
-        elsif table == "likes"       
-          case
-            when key == 1
-              @user_ip = "#{value.to_s}"
-            when key == 3
-              @item_table = "#{value.to_s}"
-            when key == 2
-              @item_id = "#{value.to_s}"
-                            
-              if @item_table == "excerpts"
-                book_name = Excerpt.find_specific_value({"table"=>"excerpts", "field_known"=>"id", "value"=>"#{@item_id}", "field_unknown"=>"book"})
-                book_author_id = Excerpt.find_specific_value({"table"=>"excerpts", "field_known"=>"id", "value"=>"#{@item_id}", "field_unknown"=>"person_id"})
-                book_author = Person.find_specific_value({"table"=>"persons", "field_known"=>"id", "value"=>"#{book_author_id}", "field_unknown"=>"name"})
-                excerpt_text = Excerpt.find_specific_value({"table"=>"excerpts", "field_known"=>"id", "value"=>"#{@item_id}", "field_unknown"=>"text"})
-              
-              
-                formatted_results << ("#{@user_ip} liked the following excerpt from <em>#{book_name.to_s}</em> by #{@book_author.to_s}:<br>\"#{excerpt_text}\"<br><br>") 
-             
-              elsif @item_table == "persons"
-                person_name = Person.find_specific_value({"table"=>"persons", "field_known"=>"#{@item_id}", "value"=>"#{value.to_s}", "field_unknown"=>"name"})
-                
-                formatted_results << ("#{@user_ip} liked an entry about #{person_name.to_s}<br><br>") 
-
-              elsif @item_table == "quotes"
-                quote_text = Quote.find_specific_value({"table"=>"quotes", "field_known"=>"id", "value"=>"#{@item_id}", "field_unknown"=>"text"})
-                person_id = Quote.find_specific_value({"table"=>"quotes", "field_known"=>"id", "value"=>"#{@item_id}", "field_unknown"=>"person_id"})
-                speaker = Person.find_specific_value({"table"=>"persons", "field_known"=>"id", "value"=>"#{person_id}", "field_unknown"=>"name"})
-              
-                formatted_results << ("#{@user_ip} liked the following quote from #{speaker.to_s}:<br>\"#{quote_text}\"<br><br>") 
-              
-              elsif @item_table == "terms"
-                term = Term.find_specific_value({"table"=>"terms", "field_known"=>"#{@item_id}", "value"=>"#{value.to_s}", "field_unknown"=>"term"})
-                definition = Term.find_specific_value({"table"=>"terms", "field_known"=>"#{@item_id}", "value"=>"#{value.to_s}", "field_unknown"=>"definition"})
-              
-                formatted_results << ("#{@user_ip} liked the following term:<br><strong>#{term.to_s}:</strong> #{definition.to_s}<br><br>") 
-                  
-              end
-          end
-              
-        elsif table == "keywords_items"     # finish this
-          case
-            when key == 1
-              @keyword_id = "#{value.to_s}"
-            when key == 3
-              @item_table_name = ItemTable.find_specific_value({"table"=>"", "field_known"=>"id", "value"=>"#{value.to_s}", "field_unknown"=>"table_name"})      
-            when key == 2
-              @item_id = "#{value.to_s}"
-              
-              
-                            
-              if @item_table_name == "excerpts"
-                keyword_text = Keyword.find_specific_value({"table"=>"keywords", "field_known"=>"id", "value"=>"#{@item_id}", "field_unknown"=>"keyword"})
-              
-                book_name = Excerpt.find_specific_value({"table"=>"excerpts", "field_known"=>"id", "value"=>"#{@item_id}", "field_unknown"=>"book"})
-                book_author_id = Excerpt.find_specific_value({"table"=>"excerpts", "field_known"=>"id", "value"=>"#{@item_id}", "field_unknown"=>"person_id"})
-                book_author = Person.find_specific_value({"table"=>"persons", "field_known"=>"id", "value"=>"#{book_author_id}", "field_unknown"=>"name"})
-                excerpt_text = Excerpt.find_specific_value({"table"=>"excerpts", "field_known"=>"id", "value"=>"#{@item_id}", "field_unknown"=>"text"})
-              
-              
-                formatted_results << ("<strong>TAGGED #{keyword_text.to_s.upcase}:</strong><br<br>\"#{excerpt_text}\"<br><em>#{book_name.to_s}</em>, by #{@book_author.to_s}<br><br>") 
-             
-              elsif @item_table_name == "persons"
-                person_name = Person.find_specific_value({"table"=>"persons", "field_known"=>"#{@item_id}", "value"=>"#{value.to_s}", "field_unknown"=>"name"})
-                
-                formatted_results << ("#{person_name.to_s}<br><br>") 
-
-              elsif @item_table_name == "quotes"
-                quote_text = Quote.find_specific_value({"table"=>"quotes", "field_known"=>"id", "value"=>"#{@item_id}", "field_unknown"=>"text"})
-                person_id = Quote.find_specific_value({"table"=>"quotes", "field_known"=>"id", "value"=>"#{@item_id}", "field_unknown"=>"person_id"})
-                speaker = Person.find_specific_value({"table"=>"persons", "field_known"=>"id", "value"=>"#{person_id}", "field_unknown"=>"name"})
-              
-                formatted_results << ("\"#{quote_text}\"<br><em>#{speaker.to_s}</em><br><br>") 
-              
-              elsif @item_table_name == "terms"
-                term = Term.find_specific_value({"table"=>"terms", "field_known"=>"#{@item_id}", "value"=>"#{value.to_s}", "field_unknown"=>"term"})
-                definition = Term.find_specific_value({"table"=>"terms", "field_known"=>"#{@item_id}", "value"=>"#{value.to_s}", "field_unknown"=>"definition"})
-              
-                formatted_results << ("<strong>#{term.to_s}:</strong> #{definition.to_s}<br><br>") 
-                  
-              end
-              
-            end
-          end
-        end
-      
-    end
-
-    return formatted_results.join("")
-    
-  end
-    
     
   # Public: #delete_secondary_kvpairs
   # Gets rid of the safeguard key-value pairs that SQLite auto includes where the key is an integer 

@@ -7,13 +7,13 @@ require_relative "instance-module.rb"
 # Creates different excerpts and gets information about them.
 #
 # Attributes:
-# @text      - String: Text of Excerpt
+# @excerpt   - String: Text of Excerpt
 # @id        - Integer: Excerpt ID, primary key for excerpts table
 # @source    - String: Source of excerpt
 # @person_id - Integer: Foreign key linked to ID primary key from persons table
 #
 # attr_reader :id
-# attr_accessor :person_id, :source, :text
+# attr_accessor :person_id, :source, :excerpt
 #
 # Public Methods:
 # 
@@ -26,7 +26,7 @@ class Excerpt
 
   
   attr_reader :id
-  attr_accessor :person_id, :source, :text
+  attr_accessor :person_id, :source, :excerpt
 
 
   # Private: initialize
@@ -34,7 +34,7 @@ class Excerpt
   #
   # Parameters:
   # options - Hash
-  #           - @text      - String: Text of Excerpt
+  #           - @excerpt   - String: Text of Excerpt
   #           - @id        - Integer: Excerpt ID, primary key for excerpts table
   #           - @source    - String: Source of excerpt (magazine, book, song, etc.)
   #           - @person_id - Integer: Foreign key linked to ID primary key from persons table
@@ -43,11 +43,11 @@ class Excerpt
   # The object
   #
   # State Changes:
-  # Sets instance variables @text, @id, @source, @person_id   
+  # Sets instance variables @excerpt, @id, @source, @person_id   
                                
   def initialize(options)
     @id = options["id"]
-    @text = options["text"]
+    @excerpt = options["excerpt"]
     @source = options["source"]
     @person_id = options["person_id"]
     
@@ -66,8 +66,8 @@ class Excerpt
   # Sets @id instance variable  
   
   def insert
-    DATABASE.execute("INSERT INTO excerpts (text, source, person_id) VALUES 
-                    ('#{@text}', '#{@source}', #{@person_id})")
+    DATABASE.execute("INSERT INTO excerpts (excerpt, source, person_id) VALUES 
+                    ('#{@excerpt}', '#{@source}', #{@person_id})")
     @id = DATABASE.last_insert_row_id
   end
 
