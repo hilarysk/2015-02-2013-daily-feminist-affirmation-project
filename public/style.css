@@ -11,7 +11,7 @@ html, body {
   overflow: auto; padding-bottom:100px;
 }
 
-body  {
+body.standard  {
   font-family: Georgia;
   font-size: medium;
   color: #000000;
@@ -74,30 +74,41 @@ div.reaffirm span.box {
   width: 400px; 
 }
 
-
 .excerptimage {
   position: relative;
   margin-top: 10px;
   width: 80%;
 }
 
-.excerpttext {
-  /*align: center;*/
+.excerpttext { 
   font-family: Courier;
   position: absolute; 
-  top: 175px;
+  top: 125px;
   left: 225px;  
   width: 575px;
   margin-bottom: 20px 
 }
+
 .bottomspacer {
   height: 50px;
 }
 
-div.excerpttext span {
-  font-family: Impact, Charcoal, sans-serif;
-  align: center;
-  width: 100%;
+.bottomspacer_excerpt {
+  height: 466px;
+}
+
+
+body.excerptbackground {
+  background-image: url('excerptimage3.jpg');
+  background-repeat: no-repeat;
+  background-position: 0px 60px;
+  font-family: Georgia;
+  font-size: medium;
+  color: #000000;
+  text-decoration: none;
+  line-height: normal;
+  border: 0px;
+  padding-bottom: 40px;
 }
 
 .persontextwrap {
@@ -123,7 +134,6 @@ div.excerpttext span {
   font-family: Impact, Charcoal, sans-serif;
   align: center;
   width: 100%;
-/*  position: relative;*/
 }
 
 
@@ -197,10 +207,20 @@ td.quotetext {
   padding-bottom: 40px;
 }
 
-h1.keywordheader {
+.search {
+  width: 300px;
   margin-left: 20%;
-  margin-bottom: 10px;
+  padding-bottom: 20px;
 }
+
+.about {
+  font-family: Georgia;
+  width: 500px;
+  margin-left: 20%;
+  padding-bottom: 40px;
+}
+
+
 
 
 

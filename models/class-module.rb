@@ -36,7 +36,12 @@ module FeministClassMethods
   end
   
   
-  
+  def get_array_keywords
+    keywords_array = DATABASE.execute("SELECT keyword FROM keywords")
+    
+    return keywords_array.shuffle!
+       
+  end
   
   
   

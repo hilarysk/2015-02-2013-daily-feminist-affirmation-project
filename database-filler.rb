@@ -47,7 +47,8 @@ ll = Keyword.new({"keyword"=>"The Awakening"})
 
 EX = Keyword.new({"keyword"=>""})
 
--education, first wave feminism, second wave feminism, third wave feminism, lawyer, journalist, family
+-education, first wave feminism, second wave feminism, third wave feminism, lawyer, journalist, family, privilege, intersectional feminism, lived experience,
+privilege, gender binary, Schrödinger''s rapist, mansplain
 
 terms:
 
@@ -84,11 +85,18 @@ a = Excerpt.new({"excerpt"=>"And if she thought anything, it was No. No. Nono. N
 d = Excerpt.new({"excerpt"=>"I would give up the unessential; I would give up my money, I would give up my life for my children; but I wouldn''t give myself. I can''t make it more clear; it''s only something I am beginning to comprehend, which is revealing itself to me.", "source"=>"The Awakening", "person_id"=>"8"})
 
 
+e = Excerpt.new({"excerpt"=>"We liked to be known as the clever girls. When we decorated our hands with henna for holidays and weddings, we drew calculus and chemical formulae instead of flowers and butterflies.", "source"=>"I Am Malala: The Girl Who Stood Up for Education and Was Shot by the Taliban", "person_id"=>"7"})
+g = Excerpt.new({"excerpt"=>"She sometimes feels that her years as a man junkie took irreplaceable time away from her music, and wonders what women could be if, as she puts it, ''We stopped taking care of men so they will take care of us - and put the same amount of time into taking care of ourselves.''", "source"=>"Revolution From Within: A Book of Self-Esteem", "person_id"=>"6"})
+
+
+http://www.joannadevoe.com/2014/04/book-nerd-weekly-kickass-quotes-from_28.html
 
 
 b = Excerpt.new({"excerpt"=>"How many girls stay awake all night<br>too scared to sleep and too scared to fight back<br>I know you know what I''m talking about<br>another woman killed and hardly a pout about it<br>green river killer my f**king a**<br>the cops have gotta be deaf, dumb, and spastic<br>to not catch the killer(s) of one hundred women<br>I guess it''d be different if they thought we were human<br><br>I wanna know what love is.", "source"=>"\"I Wanna Know What Love Is\"", "person_id"=>"21"}) #julie ruin
 c = Excerpt.new({"excerpt"=>"Rape us and beat us ''til we''re black and blue<br>We made it ok on the day we said nothing<br>Was better than something to say<br><br>What our foremothers fought for was peachy and swell<br>But hey they forgot to be mothers as well<br>Instead of our fathers, our sisters did say:Let''s just be pretty, it''s more fun that way<br><br>Let''s just be pretty<br>Let''s just be beautiful<br>Let''s just be retro and disco and twee<br>We don''t know the song so we can''t sing along<br>And our daughters will never be free.", "source"=>"Our Daughters Will Never Be Free", "person_id"=>"22"}) #the indelicates
-e = Excerpt.new({"excerpt"=>"", "source"=>"", "person_id"=>""})
+
+EX = Excerpt.new({"excerpt"=>"", "source"=>"", "person_id"=>""})
+EX = Excerpt.new({"excerpt"=>"", "source"=>"", "person_id"=>""})
 
 EX = Excerpt.new({"excerpt"=>"", "source"=>"", "person_id"=>""})
 
@@ -210,10 +218,6 @@ ad = KeywordItem.new({"keyword_id"=>"41", "item_id"=>"9", "item_table_id"=>"1"})
 ae = KeywordItem.new({"keyword_id"=>"35", "item_id"=>"9", "item_table_id"=>"1"})
 af = KeywordItem.new({"keyword_id"=>"26", "item_id"=>"9", "item_table_id"=>"1"})
 ag = KeywordItem.new({"keyword_id"=>"6", "item_id"=>"9", "item_table_id"=>"1"})
-
-# DID ALL PERSONS SO FAR ADDED AND ALL EXCERPTS; NEED KEYWORD_ITEM RECORDS FOR TERMS AND QUOTES
-
-.insert 
        
 a = KeywordItem.new({"keyword_id"=>"31", "item_id"=>"1", "item_table_id"=>"4"})  # intersectional feminism
 b = KeywordItem.new({"keyword_id"=>"38", "item_id"=>"1", "item_table_id"=>"4"}) 
@@ -252,8 +256,18 @@ kp = KeywordItem.new({"keyword_id"=>"40", "item_id"=>"2", "item_table_id"=>"2"})
 ks = KeywordItem.new({"keyword_id"=>"40", "item_id"=>"3", "item_table_id"=>"2"}) 
 kw = KeywordItem.new({"keyword_id"=>"40", "item_id"=>"4", "item_table_id"=>"2"}) 
 
-
-
+ab = KeywordItem.new({"keyword_id"=>"8", "item_id"=>"4", "item_table_id"=>"3"}) # steinem excerpt
+ak = KeywordItem.new({"keyword_id"=>"29", "item_id"=>"4", "item_table_id"=>"3"})
+aj = KeywordItem.new({"keyword_id"=>"24", "item_id"=>"4", "item_table_id"=>"3"})
+ai = KeywordItem.new({"keyword_id"=>"46", "item_id"=>"4", "item_table_id"=>"3"})
+ah = KeywordItem.new({"keyword_id"=>"9", "item_id"=>"3", "item_table_id"=>"3"}) #malala excerpt
+ag = KeywordItem.new({"keyword_id"=>"29", "item_id"=>"3", "item_table_id"=>"3"})
+af = KeywordItem.new({"keyword_id"=>"41", "item_id"=>"3", "item_table_id"=>"3"})
+ae = KeywordItem.new({"keyword_id"=>"24", "item_id"=>"3", "item_table_id"=>"3"})
+ad = KeywordItem.new({"keyword_id"=>"23", "item_id"=>"3", "item_table_id"=>"3"})
+ac = KeywordItem.new({"keyword_id"=>"45", "item_id"=>"3", "item_table_id"=>"3"})
 
                                                                
 EX = KeywordItem.new({"keyword_id"=>"", "item_id"=>"", "item_table_id"=>""})
+
+.insert

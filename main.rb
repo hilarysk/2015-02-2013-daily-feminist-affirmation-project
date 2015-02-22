@@ -57,7 +57,7 @@ get "/yay" do
 
     @keywords = KeywordItem.get_array_keywords_for_item({"table"=>"excerpts", "id_of_item"=>"#{item_id.to_s}"})  
     
-    erb :excerpt
+    erb :excerpt, :layout => :layout_excerpt
 
   elsif item.keys[1] == "person"
     
@@ -94,8 +94,6 @@ get "/yay" do
   end
 end
 
-
-
 get "/keyword" do
   @keyword = params["keyword"]
   @results = KeywordItem.get_array_items_for_keyword({"keyword"=>"#{@keyword.to_s}"})
@@ -108,17 +106,18 @@ get "/about" do
 end
 
 get "/search" do
+  @keywords = Keyword.get_array_keywords
   erb :search
 end
 
-
-
-
-get "/temp" do
-  @array = [{"person"=>"3"}, {"quote"=>"4"}, {"blue"=>"6"}, {"red"=>"7"}, {"pink"=>"10"}]
-
-  erb :temp
+get "/excerpttest" do
+  @excerpt_text = "And if she thought anything, it was No. No. Nono. Nonono. Simple. She just flew. Collected every bit of life she had made, all the parts of her that were precious and fine and beautiful, and carried, pushed, dragged them through the veil, out, away, over there where no one could hurt them. Over there. Outside this place, where they would be safe."
+  @excerpt_source = "Beloved"
+  @excerpt_person = "Toni Morrison"
+  
+  @keywords = ["black", "author", "United States"]
+  
+  erb :excerpt_example, :layout => :layout_excerpt
 end
-
 #
 binding.pry
